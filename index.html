@@ -137,6 +137,14 @@
                             src="https://s01.flagcounter.com/count2/M4PS/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/"
                             alt="Flag Counter" border="0"></a>
                 </div>
+                <div class="col-md-6 mb-4">
+                    <h4>Age guesser</h4>
+                    <div class="input-group mb-2" style="max-width: 400px; margin: 0 auto;">
+                        <input type="text" id="name-input" class="form-control" placeholder="Enter a name">
+                        <button class="btn btn-primary" id="guess-age-btn">Guess</button>
+                    </div>
+                    <div id="age-response" class="small fw-bold"></div>
+                </div>
             </div>
 
             <p class="mt-4 small opacity-75">Disclaimer: I am using public APIs for everything above. I am not
@@ -243,6 +251,20 @@
                 });
             }
             getDogPic();
+
+            // Age guessing stuff
+            $("#guess-age-btn").click(function() {
+                var name = $("#name-input").val();
+                if (name.length === 0) return;
+                
+                $.get("https://api.agify.io/?name=" + name, function(result) {
+                    if (!result || result.age == null) {
+                        $("#age-response").text("Sorry, couldn't get an age for " + name + ".");
+                    } else {
+                        $("#age-response").text("Hi " + name + ", your estimated age is " + result.age + "!");
+                    }
+                });
+            });
 
         });
     </script>
